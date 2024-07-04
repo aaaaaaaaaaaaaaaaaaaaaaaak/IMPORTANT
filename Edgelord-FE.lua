@@ -691,7 +691,6 @@ local function TimeErase()
 	PartBreak2:Play()
 	ShakeScreen(.1 ,.4)
 	wait(.3)
-	if game.Players.LocalPlayer.leaderstats.Slaps.Value <= 666 then
 		local edge1 = game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui")
 		if edge1 then
 			edge = true
@@ -701,9 +700,6 @@ local function TimeErase()
 		end
 		TurnInvisible() 
 		local SL = game.StarterGui.MobileShiftLock:Clone()  SL.Parent = game.Players.LocalPlayer.PlayerGui
-	elseif game.Players.LocalPlayer.leaderstats.Slaps.Value >= 665 then
-		game.ReplicatedStorage.Ghostinvisibilityactivated:FireServer()
-	end
 	defaultSky.Parent = nil
 	skyBox.Parent = game.Lighting
 	TickSound:Play()
@@ -720,15 +716,11 @@ local function TimeErase()
 	end 
 	TickSound:Stop()
 	KCEndSound:Play()
-	if game.Players.LocalPlayer.leaderstats.Slaps.Value <= 666 then
 		TurnVisible() 
 		if edge == true then
 			_G.CanStopEdgelord = true
 		end
 		local SL = game.StarterGui.MobileShiftLock:Clone()  SL.Parent = game.Players.LocalPlayer.PlayerGui
-	elseif game.Players.LocalPlayer.leaderstats.Slaps.Value >= 665 then
-		game.ReplicatedStorage.Ghostinvisibilitydeactivated:FireServer()
-	end
 	createCooldown2({Title = "Domain Expansion", Time = 5})
 	ShakeScreen(.16 ,.1)
 end
