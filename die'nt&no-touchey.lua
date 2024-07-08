@@ -1,3 +1,9 @@
+--[[Loadstrings]]--
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/FE/main/notificationtest"))();
+local Notify = Notification.Notify;
+loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
+Notify({Description = "Made by " .. getgenv().CreditName.DisplayYoutube .. "/" .. getgenv().CreditName.SourceYoutube ; Title = "Script Credit!"; Duration = 5;});
+
 local gui = Instance.new("ScreenGui")
 gui.Name = "FakeAdminGui"
 gui.Parent = game.CoreGui
