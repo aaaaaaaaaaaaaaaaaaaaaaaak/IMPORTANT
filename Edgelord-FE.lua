@@ -1,10 +1,14 @@
---///////////[Wait For Game]\\\\\\\\\--
+--[[Wait For Game]]--
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
---///////////[Loadstrings]\\\\\\\\\--
+--[[Loadstrings]]--
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/FE/main/notificationtest"))();
+local Notify = Notification.Notify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
+Notify({Description = "Made by " .. getgenv().CreditName.DisplayYoutube .. "/" .. getgenv().CreditName.SourceYoutube ; Title = "Script Credit!"; Duration = 5;});
+
 _G.CanStopEdgelord = true
 local Namecall
 Namecall = hookmetamethod(game, "__namecall", function(self, ...)
@@ -148,10 +152,10 @@ function TurnInvisible()
 	end
 end
 
---///////////[Send Credit]\\\\\\\\\--
+--[[Send Credit]]--
 game.StarterGui:SetCore("SendNotification", {Title = "YouTube OMOHOTA", Text = "Script made by" .. CreditName.SourceYoutube .. "/" .. CreditName.DisplayYoutube .. ", Subscribe now.", Duration = 6})
 
---///////////[Lobby Check+Destroy Old]\\\\\\\\\--
+--[[Lobby Check+Destroy Old]]--
 if game.Players.LocalPlayer.Character.isInArena.Value == true then
 	game.StarterGui:SetCore("SendNotification", {Title = "ERROR", Text = "Script can only be using in lobby.", Duration = 3})
 	return
@@ -163,7 +167,7 @@ if game.Workspace:FindFirstChild("SafeSpotEdgeLord") ~= nil then
 	game.Workspace:FindFirstChild("SafeSpotEdgeLord"):Destroy()
 end
 
---///////////[Create SettingZone]\\\\\\\\\--
+--[[Create SettingZone]]--
 local SafeSpotEdgeLord = Instance.new("Part", workspace)
 SafeSpotEdgeLord.Position = Vector3.new(86, -12173, 78)
 SafeSpotEdgeLord.Name = "SafeSpotEdgeLord"
@@ -174,7 +178,7 @@ SafeSpotEdgeLord.CanCollide = true
 
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace:FindFirstChild("SafeSpotEdgeLord").CFrame * CFrame.new(0, 1, 0)
 
---///////////[Create functionGUI]\\\\\\\\\--
+--[[Create functionGUI]]--
 local function AddCorner(instance, radius)
     local corner = Instance.new("UICorner", instance)
     corner.CornerRadius = UDim.new(0, radius)
@@ -368,97 +372,15 @@ local function AddStroke(instance, thickness)
 end
 
 local function createCooldown(Notify)
-    Notify.Title = Notify.Title
-    Notify.Time = Notify.Time
-
-    local notification = Instance.new("Frame")
+    if Notify.Fill == nil then Notify.Fill = 0 end
+    
+    local notification = Instance.new("Frame", notificationCenter)
     notification.Size = UDim2.new(0, 100, 0, 50)
     notification.Position = UDim2.new(1, 10, 0.65, 0)
     notification.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     notification.BorderColor3 = Color3.fromRGB(30, 30, 30)
     notification.BorderSizePixel = 2
-    notification.Parent = notificationCenter
-    table.insert(notifications, 1, notification)
-	AddCorner(notification, 5)
-	AddStroke(notification, 2)
-	
-    local titleLabel = Instance.new("TextLabel")
-    titleLabel.Size = UDim2.new(1, 0, 0.5, 0)
-    titleLabel.Position = UDim2.new(0, 0, 0, 0)
-    titleLabel.BackgroundTransparency = 1
-    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    titleLabel.Text = Notify.Title
-    titleLabel.Font = Enum.Font.SourceSansBold
-    titleLabel.TextSize = 16
-    titleLabel.TextXAlignment = Enum.TextXAlignment.Center
-    titleLabel.Parent = notification
-    local timeFrame = Instance.new("Frame") timeFrame.Size = UDim2.new(0.9, 0, 0.35, 0)
-    timeFrame.Position = UDim2.new(0.05, 0, 0.5, 0)
-    timeFrame.BackgroundColor3 = Color3.new(0.15, 0.15, 0.15)
-    timeFrame.BorderSizePixel = 0
-    timeFrame.Parent = notification
-	AddCorner(timeFrame, 5)
-    local timeBar = Instance.new("Frame")
-    timeBar.BackgroundColor3 = Color3.new(1, 1, 1)
-    timeBar.BorderSizePixel = 0
-    timeBar.Parent = timeFrame
-	AddCorner(timeBar, 5)
-	
-    local showTween = TweenService:Create(notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)})
-    showTween:Play()
-    updateNotificationPositions()
-
-    local startTime = tick()
-    local cooldownEnded = false
-    RunService.RenderStepped:Connect(function()
-    if not cooldownEnded then
-        local elapsedTime = tick() - startTime
-        if elapsedTime < Notify.Time then
-            timeBar.Size = UDim2.new(1 - (elapsedTime / Notify.Time), 0, 1, 0)
-        else
-            timeBar.Size = UDim2.new(0, 0, 1, 0)
-            cooldownEnded = true
-        end
-    end
-end)
-local function endCooldown()
-    cooldownEnded = true
-    timeBar.Size = UDim2.new(0, 0, 1, 0)
-end
-    notification.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            endCooldown()
-        end
-    end)
-
-    notification.TouchTap:Connect(function()
-        endCooldown()
-    end)
-
-    delay(Notify.Time, function()
-        if notification then
-            table.remove(notifications, table.find(notifications, notification))
-            local hideTween = TweenService:Create(notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.In), {Position = UDim2.new(1, 10, 0.65, 0)})
-            hideTween:Play()
-            hideTween.Completed:Connect(function()
-                notification:Destroy()
-                updateNotificationPositions()
-            end)
-        end
-    end)
-end
-
-local function createCooldown2(Notify)
-    Notify.Title = Notify.Title
-    Notify.Time = Notify.Time
-
-    local notification = Instance.new("Frame")
-    notification.Size = UDim2.new(0, 100, 0, 50)
-    notification.Position = UDim2.new(1, -(100 * #notifications + 10 * (#notifications - 1)) - 10, 0.65, 0)
-    notification.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    notification.BorderColor3 = Color3.fromRGB(30, 30, 30)
-    notification.BorderSizePixel = 2
-    notification.Parent = notificationCenter
+    notification.Active = true
     table.insert(notifications, 1, notification)
     AddCorner(notification, 5)
     AddStroke(notification, 2)
@@ -470,7 +392,7 @@ local function createCooldown2(Notify)
     titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     titleLabel.Text = Notify.Title
     titleLabel.Font = Enum.Font.SourceSansBold
-    titleLabel.TextSize = 16
+    titleLabel.TextSize = 14
     titleLabel.TextXAlignment = Enum.TextXAlignment.Center
     titleLabel.Parent = notification
     
@@ -481,13 +403,12 @@ local function createCooldown2(Notify)
     timeFrame.BorderSizePixel = 0
     timeFrame.Parent = notification
     AddCorner(timeFrame, 5)
-    
     local timeBar = Instance.new("Frame")
     timeBar.BackgroundColor3 = Color3.new(1, 1, 1)
     timeBar.BorderSizePixel = 0
     timeBar.Parent = timeFrame
     AddCorner(timeBar, 5)
-
+    
     local showTween = TweenService:Create(notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)})
     showTween:Play()
     updateNotificationPositions()
@@ -498,32 +419,28 @@ local function createCooldown2(Notify)
         if not cooldownEnded then
             local elapsedTime = tick() - startTime
             if elapsedTime < Notify.Time then
-                timeBar.Size = UDim2.new((elapsedTime / Notify.Time), 0, 1, 0)
+                timeBar.Size = UDim2.new(1 - (elapsedTime / Notify.Time), 0, 1, 0)
             else
-                timeBar.Size = UDim2.new(1, 0, 1, 0)
+                timeBar.Size = UDim2.new(0, 0, 1, 0)
                 cooldownEnded = true
+				
+                if Notify.Fill > 0 then
+                    local fillTime = startTime + Notify.Time
+                    RunService.RenderStepped:Connect(function()
+		                local fillElapsedTime = tick() - fillTime
+		                if fillElapsedTime < Notify.Fill then
+		                    timeBar.Size = UDim2.new((fillElapsedTime / Notify.Fill), 0, 1, 0)
+		                end
+		            end)
+                end
             end
         end
     end)
-
-    notification.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            endCooldown()
-        end
-    end)
-
-    notification.TouchTap:Connect(function()
-        endCooldown()
-    end)
-
+    
     local function endCooldown()
-        cooldownEnded = true
-        timeBar.Size = UDim2.new(1, 0, 1, 0)
-    end
-
-    delay(Notify.Time, function()
         if notification then
             table.remove(notifications, table.find(notifications, notification))
+            cooldownEnded = true
             local hideTween = TweenService:Create(notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.In), {Position = UDim2.new(1, 10, 0.65, 0)})
             hideTween:Play()
             hideTween.Completed:Connect(function()
@@ -531,9 +448,16 @@ local function createCooldown2(Notify)
                 updateNotificationPositions()
             end)
         end
+    end
+    
+    delay(Notify.Time + Notify.Fill, function()
+        endCooldown()
     end)
+    
+    return notification 
 end
---///////////[Create Animation/Animation Controller]\\\\\\\\\--
+
+--[[Create Animation/Animation Controller]]--
 if game.ReplicatedStorage:FindFirstChild("TheForceAnim") == nil then
 	local EdgeAnim = Instance.new("Animation")
 	EdgeAnim.AnimationId = "rbxassetid://16102717448"
@@ -561,7 +485,7 @@ local function StopAnim(Anim)
         end
     end
 end
---///////////[Create Sound]\\\\\\\\\--
+--[[Create Sound]]--
 local GasterTheme = Instance.new("Sound", EdgelordGui)
 GasterTheme.SoundId = "rbxassetid://9133844756"
 GasterTheme.Volume = 1
@@ -573,7 +497,7 @@ local TelekineticSound = Instance.new("Sound", EdgelordGui)
 TelekineticSound.SoundId = "rbxassetid://858508159"
 TelekineticSound.Volume = 5
 
---///////////[Camera]\\\\\\\\\--
+--[[Camera]]--
 local function ShakeScreen(shakeTime, shakeIntensity)
     local originalRotation = workspace.CurrentCamera.CFrame
     local function Shake()
@@ -609,7 +533,7 @@ local function startTween(index)
         end)
     end
 end
---///////////[Equip edgelord+ Ability]\\\\\\\\\--
+--[[Equip edgelord+ Ability]]--
 if workspace:FindFirstChild("KCTimeErase") == nil then
 	local KCTimeErase = Instance.new("Part", workspace)
 	KCTimeErase.Position = Vector3.new(60, -8.8, 100)
@@ -622,7 +546,7 @@ end
 local KCTimeErase = workspace:FindFirstChild("KCTimeErase")
 KCTimeErase.CanCollide = false
 
---///////////[Sky]\\\\\\\\\--
+--[[Sky]]--
 if game.Lighting:FindFirstChild("DefaultSky") == nil then
 	local defaultSky = game.Lighting:FindFirstChild("Sky")
 	defaultSky.Name = "DefaultSky"
@@ -639,7 +563,7 @@ skyBox.SkyboxRt = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
 skyBox.SkyboxUp = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
 skyBox.Parent = nil
 
---///////////[Sound Effect]\\\\\\\\\--
+--[[Sound Effect]]--
 -- Create and set properties for KCEndSound if it doesn't exist in workspace
 local KCEndSound = workspace:FindFirstChild("KCEndSound")
 if not KCEndSound then
@@ -679,7 +603,7 @@ if not TickSound then
     end)
 end
 
---///////////[Script]\\\\\\\\\--
+--[[Script]]--
 
 local function TimeErase()
 	KCTimeErase.CanCollide = true
@@ -704,7 +628,7 @@ local function TimeErase()
 	skyBox.Parent = game.Lighting
 	TickSound:Play()
 	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 35
-	createCooldown({Title = "Domain Expansion", Time = 10})
+	createCooldown({Title = "Domain Expansion", Time = 10, Fill = 10})
 	ShakeScreen(.1 ,.2)
 	wait(10)
 	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
@@ -721,7 +645,6 @@ local function TimeErase()
 			_G.CanStopEdgelord = true
 		end
 		local SL = game.StarterGui.MobileShiftLock:Clone()  SL.Parent = game.Players.LocalPlayer.PlayerGui
-	createCooldown2({Title = "Domain Expansion", Time = 5})
 	ShakeScreen(.16 ,.1)
 end
 
@@ -763,7 +686,7 @@ local function EClicked()
         TelekineticSound:Play()
         if v ~= game.Players.LocalPlayer and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and v.Character then
             if v.Character:FindFirstChild("entered") and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("rock") == nil and v.Character.HumanoidRootPart.BrickColor ~= BrickColor.new("New Yeller") then
-                if v.Character.Head:FindFirstChild("UnoReverseCard") == nil then
+                if v.Character.Head:FindFirstChild("UnoReverseCard") == nil and v.Character:FindFirstChild("stevebody") == nil then
                     local Magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
                     if Magnitude <= 25 then
 						if CartoonPush then
@@ -818,13 +741,13 @@ end
 
 local CanDomainExpansion = false
 local lastClickTime2 = 0
-local DomainCooldown = 15
+local DomainCooldown = 25
 local Players, ReplicatedStorage = game:GetService("Players"), game:GetService("ReplicatedStorage")
 ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering").OnClientEvent:Connect(function(message)
     local sender, receiver = message.FromSpeaker, game.Players.LocalPlayer
     local msg = message.Message or ""
     
-    if msg:lower() == "domain expansion" or msg:lower() == "domain expansion " or msg:lower() == "king crimson" or msg:lower() == "king crimson " and sender and sender == receiver.Name then
+    if msg:lower() == "domain expansion" or msg:lower() == "domain expansion " or msg:lower() == "king crimson" or msg:lower() == "king crimson " or msg:lower() == "." and sender and sender == receiver.Name then
 	    if CanDomainExpansion then return end
 	    if tick() - lastClickTime2 < DomainCooldown then
 	        return
@@ -833,22 +756,22 @@ ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMe
 	    CanDomainExpansion = false
 		local CutSence = tick()
 		StopAnim(16102717448)
+		CanBeTelekinetic = true
 		game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.DomainSummonAnimation, game.Players.LocalPlayer.Character.Humanoid):Play()
-		local SGD = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
-			local IMAGEDOMAIN = Instance.new("ImageLabel", SGD)
-			IMAGEDOMAIN.Size = UDim2.new(0.3, 0, 0.8, 0)
-			IMAGEDOMAIN.Position = UDim2.new(0.1, 0, 0.05, 0)
-			IMAGEDOMAIN.Image = "rbxthumb://type=Asset&id=15318959176&w=150&h=150"
-			local TEXTDOMAIN = Instance.new("TextLabel")
-			TEXTDOMAIN.Parent = SGD
-			TEXTDOMAIN.Size = UDim2.new(0, 400, 0, 50)
-			TEXTDOMAIN.Position = UDim2.new(0.3, 0, 0.1, 0)
-			TEXTDOMAIN.TextSize = 50
-			TEXTDOMAIN.Text = "//Domain Expansion: Erase Time//"
-			TEXTDOMAIN.BackgroundTransparency = 1
-			TEXTDOMAIN.Font = Enum.Font.SourceSansBold
-			TEXTDOMAIN.TextColor3 = Color3.fromRGB(255, 255, 255)
-			AddStroke(TEXTDOMAIN, 4)
+		local SGD = Instance.new("ScreenGui", game.CoreGui)
+		local IMAGEDOMAIN = Instance.new("ImageLabel", SGD)
+		IMAGEDOMAIN.Size = UDim2.new(0.3, 0, 1, 0)
+		IMAGEDOMAIN.Position = UDim2.new(0, 0, 0, 0)
+		IMAGEDOMAIN.Image = "rbxthumb://type=Asset&id=15318959176&w=150&h=150"
+		local TEXTDOMAIN = Instance.new("TextLabel", SGD)
+		TEXTDOMAIN.Size = UDim2.new(0, 400, 0, 50)
+		TEXTDOMAIN.Position = UDim2.new(0.3, 0, 0.1, 0)
+		TEXTDOMAIN.TextSize = 50
+		TEXTDOMAIN.Text = "//Domain Expansion: Erase Time//"
+		TEXTDOMAIN.BackgroundTransparency = 1
+		TEXTDOMAIN.Font = Enum.Font.SourceSansBold
+		TEXTDOMAIN.TextColor3 = Color3.fromRGB(255, 255, 255)
+		AddStroke(TEXTDOMAIN, 4)
 		while tick() - CutSence < 2.4 do
 		    local playerHeadPosition = game.Players.LocalPlayer.Character.Head.Position
 		    game.Workspace.CurrentCamera.CFrame = CFrame.new(playerHeadPosition, playerHeadPosition - game.Players.LocalPlayer.Character.Head.CFrame.LookVector)
@@ -857,22 +780,22 @@ ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMe
 		    local ActiveTracks = Humanoid:GetPlayingAnimationTracks()
 		    for _, v in pairs(ActiveTracks) do
 		        if v.Animation.AnimationId == "rbxassetid://15561810697" then
-		            v:AdjustSpeed(.5)
+		            v:AdjustSpeed(.3)
 		        end
 		    end
 		    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
 		    wait()
 		end
-		wait(2)
 		SGD:Destroy()
+		CanBeTelekinetic = false
 		game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.DomainSummonAnimation, game.Players.LocalPlayer.Character.Humanoid):Stop()
 		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20 
-		game.Workspace.CurrentCamera.FieldOfView = 70
+		startTween(1)
 		TimeErase()
     end
 end)
 
---///////////[OnDead]\\\\\\\\\--
+--[[OnDead]]--
 local function PlayerDead()
 	if _G.CanStopEdgelord == false then return end
 	if game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui") then
@@ -888,16 +811,6 @@ local function PlayerDead()
 		GasterTheme:Stop()
 		EdgelordGui:Destroy()
 		game.Workspace.Camera.FieldOfView = 70
-		for _, v in pairs(game.Workspace.DEATHBARRIER:GetChildren()) do
-		    if v.ClassName == "Part" and v.Name == "BLOCK" then
-		        v.CanTouch = true
-		    end
-		end
-		workspace.DEATHBARRIER.CanTouch = true
-		workspace.DEATHBARRIER2.CanTouch = true
-		workspace.dedBarrier.CanTouch = true
-		workspace.ArenaBarrier.CanTouch = true
-		workspace.AntiDefaultArena.CanTouch = true
 	end
 	if game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui") ~= nil then
 		game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui"):Destroy()
@@ -907,7 +820,7 @@ local function PlayerDead()
 	end
 end
 
---///////////[function connect]\\\\\\\\\--
+--[[function connect]]--
 game:GetService("UserInputService").InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and TeleportPE then
 		local Teleportpos = game.Players.LocalPlayer:GetMouse().Hit+Vector3.new(0,2.5,0)
@@ -940,7 +853,7 @@ TAbilityButtonReal.MouseButton1Click:Connect(TClicked)
 FAbilityButtonReal.MouseButton1Click:Connect(FClicked)
 game.Players.LocalPlayer.CharacterAdded:Connect(PlayerDead)
 game:GetService("UserInputService").InputBegan:Connect(onInputBegan)
---///////////[Others]\\\\\\\\\--
+--[[Others]]--
 local EffectUI = Instance.new("Frame",EdgelordGui)
 EffectUI.Size = UDim2.new(0.3, 0, 0.3, 0)
 EffectUI.Position = UDim2.new(0.34, 0, -0.2, 0)
