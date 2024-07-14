@@ -2,10 +2,9 @@
 --[[Loadstrings]]--
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/FE/main/notificationtest"))();
 local Notify = Notification.Notify;
-Notify({Description = "Script already got removed due to people keep post my script to roblox executor script search; Title = "SCRIPT REMOVED!"; Duration = 5;});
-Notify({Description = "New script in my youtube video description, video link was copied into your clipboard"; Title = "SCRIPT REMOVED!"; Duration = 5;});
-setclipboard("https://youtu.be/KYEbdE5YiDk?si=7PExtX-3Tl--Bbe7")
---[[
+loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
+Notify({Description = "Made by " .. getgenv().CreditName.DisplayYoutube .. "/" .. getgenv().CreditName.SourceYoutube ; Title = "Script Credit!"; Duration = 5;});
+
 local gui = Instance.new("ScreenGui")
 gui.Name = "FakeAdminGui"
 gui.Parent = game.CoreGui
