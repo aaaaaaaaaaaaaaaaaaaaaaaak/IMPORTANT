@@ -1,3 +1,4 @@
+--Hey if you re watching this then I would like to say your script ability it's better than mine, how can you Deobfucase the moonsec v3? I would like to add you in discord @poguos
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/FE/main/notificationtest"))();
 local Notify = Notification.Notify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
