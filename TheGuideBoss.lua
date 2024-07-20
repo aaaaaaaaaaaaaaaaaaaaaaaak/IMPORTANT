@@ -1,4 +1,9 @@
---Hey if you re watching this then I would like to say your script ability it's better than mine, how can you Deobfucase the moonsec v3? I would like to add you in discord @poguos
+--[[
+Hey if you re watching this then
+I would like to say your script ability it's better than mine
+how can you Deobfucase the moonsec v3
+Cool man! Can i add you in discord? my user is @poguos
+]]--
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/FE/main/notificationtest"))();
 local Notify = Notification.Notify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
@@ -161,15 +166,34 @@ HITROCKET.BackgroundTransparency = 0
 HITROCKET.TextColor3 = Color3.new(0, 0, 0)
 
 local SPARE = Instance.new("TextButton", MainUi)
-SPARE.Size = UDim2.new(0.9, 0, 0.1, 0)
+SPARE.Size = UDim2.new(0.45, 0, 0.1, 0)
 SPARE.Position = UDim2.new(0.05, 0, 0.86, 0)
 SPARE.BackgroundColor3 = Color3.new(1, 1, 1)
 SPARE.BorderColor3 = Color3.new(0, 0, 0)
 SPARE.BorderSizePixel = 1
 SPARE.TextScaled = true
-SPARE.Text = "Spare Guide (Must use this)"
+SPARE.Text = "Spare Guide (Relude)"
 SPARE.BackgroundTransparency = 0 
 SPARE.TextColor3 = Color3.new(0, 0, 0)
+
+local UNSPARE = Instance.new("TextButton", MainUi)
+UNSPARE.Size = UDim2.new(0.45, 0, 0.1, 0)
+UNSPARE.Position = UDim2.new(0.5, 0, 0.86, 0)
+UNSPARE.BackgroundColor3 = Color3.new(1, 1, 1)
+UNSPARE.BorderColor3 = Color3.new(0, 0, 0)
+UNSPARE.BorderSizePixel = 1
+UNSPARE.TextScaled = true
+UNSPARE.Text = "No-Spare Guide (Hunter)"
+UNSPARE.BackgroundTransparency = 0 
+UNSPARE.TextColor3 = Color3.new(0, 0, 0)
+
+UNSPARE.MouseButton1Down:Connect(function()
+	game:GetService("ReplicatedStorage").Remotes.Data.AnswerInCutscene:FireServer("Eliminate")
+end)
+
+SPARE.MouseButton1Down:Connect(function()
+	game:GetService("ReplicatedStorage").Remotes.Data.AnswerInCutscene:FireServer("Spare")
+end)
 
 SAFE.MouseButton1Down:Connect(function()
 	local SF = Instance.new("Part", workspace)
@@ -220,8 +244,4 @@ HITROCKET.MouseButton1Down:Connect(function()
 	HITROCKET.BackgroundColor3 = Color3.new(1, 1, 1)
 	AutoRocket(false)
 	end
-end)
-
-SPARE.MouseButton1Down:Connect(function()
-game:GetService("ReplicatedStorage").Remotes.Data.AnswerInCutscene:FireServer("Spare")
 end)
