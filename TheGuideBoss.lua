@@ -9,7 +9,8 @@ local Notify = Notification.Notify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
 
 if game.PlaceId ~= 18550498098 then
-	Notify({Description = "Wrong placeid" ; Title = "Error!"; Duration = 5;});
+	-- game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame(
+	Notify({Description = "Wrong Place, You have to join the boss fight experience" ; Title = "Error!"; Duration = 5;});
 	return
 end
 
@@ -205,12 +206,16 @@ SAFE.MouseButton1Down:Connect(function()
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(595, 150, -330)
 end)
 
+local Teleported = false
 TPTo.MouseButton1Down:Connect(function()
+	if Teleported == false then
+	Teleported = true
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3270, -228, 823)
-	task.wait(.1)
+	task.wait(.5)
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3287, -71, 823)
-	task.wait(.1)
+	task.wait(.5)
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3273,-75,822)
+	end
 end)
 
 HITMINI.MouseButton1Down:Connect(function()
