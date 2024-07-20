@@ -72,12 +72,6 @@ local function AutoGuide(Value)
 		for i, v in pairs(workspace:GetChildren()) do
 		    if v.Name == "GuideNPC" then
 				GloveSlap()
-			local GuideHumanoid = v:FindFirstChild("Humanoid")
-				if GuideHumanoid then 
-GuideHumanoid.Health = 0
-Guide = false
-return
-				end
 		        local args = {
 		            [1] = "Hit",
 		            [2] = v:FindFirstChild("HumanoidRootPart")
@@ -172,7 +166,8 @@ SPARE.Position = UDim2.new(0.05, 0, 0.86, 0)
 SPARE.BackgroundColor3 = Color3.new(1, 1, 1)
 SPARE.BorderColor3 = Color3.new(0, 0, 0)
 SPARE.BorderSizePixel = 1
-SPARE.Text = "Auto Spare+NoSpare Guide"
+SPARE.TextScaled = true
+SPARE.Text = "Instantkill Guide (Phase2)-HunterGlove only"
 SPARE.BackgroundTransparency = 0 
 SPARE.TextColor3 = Color3.new(0, 0, 0)
 
@@ -228,7 +223,12 @@ HITROCKET.MouseButton1Down:Connect(function()
 end)
 
 SPARE.MouseButton1Down:Connect(function()
-game:GetService("ReplicatedStorage").Remotes.Data.AnswerInCutscene:FireServer("NoSpare")
-game:GetService("ReplicatedStorage").Remotes.Data.AnswerInCutscene:FireServer("Attack")
-game:GetService("ReplicatedStorage").Remotes.Data.AnswerInCutscene:FireServer("Spare")
+for i, v in pairs(workspace:GetChildren()) do
+if v.Name == "GuideNPC" then
+local GuideHumanoid = v:FindFirstChild("Humanoid")
+if GuideHumanoid then 
+GuideHumanoid.Health = 0
+end
+end
+end
 end)
