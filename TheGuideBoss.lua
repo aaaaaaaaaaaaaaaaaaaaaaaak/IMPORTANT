@@ -72,6 +72,12 @@ local function AutoGuide(Value)
 		for i, v in pairs(workspace:GetChildren()) do
 		    if v.Name == "GuideNPC" then
 				GloveSlap()
+			local GuideHumanoid = v:FindFirstChild("Humanoid")
+				if GuideHumanoid then 
+GuideHumanoid.Health = 0
+Guide = false
+return
+				end
 		        local args = {
 		            [1] = "Hit",
 		            [2] = v:FindFirstChild("HumanoidRootPart")
