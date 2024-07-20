@@ -167,7 +167,7 @@ SPARE.BackgroundColor3 = Color3.new(1, 1, 1)
 SPARE.BorderColor3 = Color3.new(0, 0, 0)
 SPARE.BorderSizePixel = 1
 SPARE.TextScaled = true
-SPARE.Text = "Instantkill Guide (Phase2)-HunterGlove only"
+SPARE.Text = "Spare Guide (Must use this)"
 SPARE.BackgroundTransparency = 0 
 SPARE.TextColor3 = Color3.new(0, 0, 0)
 
@@ -223,12 +223,5 @@ HITROCKET.MouseButton1Down:Connect(function()
 end)
 
 SPARE.MouseButton1Down:Connect(function()
-for i, v in pairs(workspace:GetChildren()) do
-if v.Name == "GuideNPC" then
-local GuideHumanoid = v:FindFirstChild("Humanoid")
-if GuideHumanoid then 
-GuideHumanoid.Health = 0
-end
-end
-end
+game:GetService("ReplicatedStorage").Remotes.Data.AnswerInCutscene:FireServer("Spare")
 end)
