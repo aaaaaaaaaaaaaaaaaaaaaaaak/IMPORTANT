@@ -206,6 +206,10 @@ SAFE.MouseButton1Down:Connect(function()
 end)
 
 TPTo.MouseButton1Down:Connect(function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3270, -228, 823)
+	task.wait(.1)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3287, -71, 823)
+	task.wait(.1)
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3273,-75,822)
 end)
 
