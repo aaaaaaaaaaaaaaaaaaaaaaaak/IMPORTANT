@@ -9,8 +9,8 @@ local Notify = Notification.Notify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
 
 if game.PlaceId ~= 18550498098 then
-	-- game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame(
-	Notify({Description = "Wrong Place, You have to join the boss fight experience" ; Title = "Error!"; Duration = 5;});
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(17944, -130, -3559)
+	Notify({Description = "Teleporting to experience, Goto ServerVip if you want to not getting caught Exploiting" ; Title = "Error!"; Duration = 5;});
 	return
 end
 
