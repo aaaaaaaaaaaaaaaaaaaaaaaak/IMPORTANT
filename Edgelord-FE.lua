@@ -553,4 +553,388 @@ local defaultSky = game.Lighting:FindFirstChild("DefaultSky")
 local skyBox = Instance.new("Sky")
 skyBox.Name = "TimeEraseSky"
 skyBox.SkyboxBk = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
-skyBox.SkyboxDn = "rbxthum
+skyBox.SkyboxDn = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
+skyBox.SkyboxFt = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
+skyBox.SkyboxLf = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
+skyBox.SkyboxRt = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
+skyBox.SkyboxUp = "rbxthumb://type=Asset&id=17558415793&w=150&h=150"
+skyBox.Parent = nil
+
+--[[Sound Effect]]--
+-- Create and set properties for KCEndSound if it doesn't exist in workspace
+local KCEndSound = workspace:FindFirstChild("KCEndSound")
+if not KCEndSound then
+    KCEndSound = Instance.new("Sound", workspace)
+    KCEndSound.Name = "KCEndSound"
+    KCEndSound.SoundId = "rbxassetid://3763437293"
+    KCEndSound.Volume = 3
+end
+
+-- Create and set properties for PartBreak if it doesn't exist in workspace
+local PartBreak = workspace:FindFirstChild("PartBreak")
+if not PartBreak then
+    PartBreak = Instance.new("Sound", workspace)
+    PartBreak.Name = "PartBreak"
+    PartBreak.SoundId = "rbxassetid://3923230963"
+    PartBreak.Volume = 7
+end
+
+-- Create and set properties for PartBreak2 if it doesn't exist in workspace
+local PartBreak2 = workspace:FindFirstChild("PartBreak2")
+if not PartBreak2 then
+    PartBreak2 = Instance.new("Sound", workspace)
+    PartBreak2.Name = "PartBreak2"
+    PartBreak2.SoundId = "rbxassetid://3923230963"
+    PartBreak2.Volume = 7
+end
+
+-- Create and set properties for TickSound if it doesn't exist in workspace
+local TickSound = workspace:FindFirstChild("TickSound")
+if not TickSound then
+    TickSound = Instance.new("Sound", workspace)
+    TickSound.Name = "TickSound"
+    TickSound.SoundId = "rbxassetid://9133682204"
+    TickSound.Volume = 3
+    TickSound.Ended:Connect(function()
+        TickSound:Play()
+    end)
+end
+
+--[[Script]]--
+
+local function TimeErase()
+	KCTimeErase.CanCollide = true
+	PartBreak:Play()
+	if game.ReplicatedStorage:FindFirstChild("Arena") == nil and workspace:FindFirstChild("Arena") ~= nil then
+		workspace:FindFirstChild("Arena").Parent = game.ReplicatedStorage
+	end
+	wait(.1)
+	PartBreak2:Play()
+	ShakeScreen(.1 ,.4)
+	wait(.3)
+		local edge1 = game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui")
+		if edge1 then
+			edge = true
+			_G.CanStopEdgelord = false
+		else
+			edge = nil
+		end
+		TurnInvisible() 
+		local SL = game.StarterGui.MobileShiftLock:Clone()  SL.Parent = game.Players.LocalPlayer.PlayerGui
+	defaultSky.Parent = nil
+	skyBox.Parent = game.Lighting
+	TickSound:Play()
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 35
+	createCooldown({Title = "Domain Expansion", Time = 10, Fill = 10})
+	ShakeScreen(.1 ,.2)
+	wait(10)
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
+	skyBox.Parent = nil 
+	defaultSky.Parent = game.Lighting
+	KCTimeErase.CanCollide = false
+	if game.ReplicatedStorage:FindFirstChild("Arena") ~= nil then
+		game.ReplicatedStorage:FindFirstChild("Arena").Parent = workspace 
+	end 
+	TickSound:Stop()
+	KCEndSound:Play()
+		TurnVisible() 
+		if edge == true then
+			_G.CanStopEdgelord = true
+		end
+		local SL = game.StarterGui.MobileShiftLock:Clone()  SL.Parent = game.Players.LocalPlayer.PlayerGui
+	ShakeScreen(.16 ,.1)
+end
+
+local function edgelordGlove()
+	OGlove = game.Players.LocalPlayer.leaderstats.Glove.Value
+	game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.TheForceAnim):Play()
+	game.Players.LocalPlayer.leaderstats.Glove.Value = "edgelord"
+	wait(0.98)
+	PauseAnim(16102717448)
+	GasterTheme:Play()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Origo.CFrame * CFrame.new(0,-5,0)
+	wait(12.5)
+	EAbilityButton.Visible = true
+	TAbilityButton.Visible = true
+	FAbilityButton.Visible = true
+	TelekineticOnTap.Visible = true
+	CartoonMode.Visible = true
+	DaShowing.Visible = true
+	startTween(1)
+	ShakeScreen(.1, .8)
+end
+
+local CanBeTelekinetic = true
+local lastClickTime = 0
+local TelekineticCooldown = 1.4
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Slap_Aura.lua")))()
+
+local function EClicked()
+    if CanBeTelekinetic then return end
+    if tick() - lastClickTime < TelekineticCooldown then
+        return
+    end
+	
+    CanBeTelekinetic = true
+	createCooldown({Title = "Telekinetic Force", Time = 1.3})
+    for i,v in pairs(game.Players:GetChildren()) do
+		StopAnim(16102717448)
+        game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.TheForceAnim):Play()
+        TelekineticSound:Play()
+        if v ~= game.Players.LocalPlayer and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and v.Character then
+            if v.Character:FindFirstChild("entered") and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("rock") == nil and v.Character.HumanoidRootPart.BrickColor ~= BrickColor.new("New Yeller") then
+                if v.Character.Head:FindFirstChild("UnoReverseCard") == nil and v.Character:FindFirstChild("stevebody") == nil then
+                    local Magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                    if Magnitude <= 25 then
+						if CartoonPush then
+							game:GetService("ReplicatedStorage").slapstick:FireServer("dash")
+						else
+	                        gloveHits[OGlove]:FireServer(v.Character:WaitForChild("HumanoidRootPart"), true)
+						end
+                    end
+                end
+            end
+        end
+    end
+	for _, c in pairs(workspace:GetChildren()) do
+		if string.find(c.Name, "Å") and c:FindFirstChild("HumanoidRootPart") then
+			local Magnitude2 = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - c.HumanoidRootPart.Position).Magnitude
+			if Magnitude2 <= 75 then
+				gloveHits[OGlove]:FireServer(c:WaitForChild("HumanoidRootPart"), true)
+			end
+		end
+	end
+    lastClickTime = tick()
+    CanBeTelekinetic = false
+    wait(0.98)
+	PauseAnim(16102717448)
+end
+
+local TeleportForPc = false
+local Teleport = false
+local TeleportPE = false
+local function TClicked()
+    if Teleport then 
+        return 
+    end
+    Teleport = true
+    TeleportPE = true
+end
+
+local function FClicked()
+			if GasterTheme.Playing then
+				GasterTheme:Stop()
+			else
+				GasterTheme:Play()
+			end
+end
+
+if not game.ReplicatedStorage:FindFirstChild("DomainSummonAnimation") then
+	local DomainSummon = Instance.new("Animation")
+	DomainSummon.AnimationId = "rbxassetid://15561810697"
+	DomainSummon.Parent = game.ReplicatedStorage
+	DomainSummon.Name = "DomainSummonAnimation"
+end
+
+local CanDomainExpansion = false
+local lastClickTime2 = 0
+local DomainCooldown = 25
+local Players, ReplicatedStorage = game:GetService("Players"), game:GetService("ReplicatedStorage")
+ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering").OnClientEvent:Connect(function(message)
+    local sender, receiver = message.FromSpeaker, game.Players.LocalPlayer
+    local msg = message.Message or ""
+    
+    if msg:lower() == "domain expansion" or msg:lower() == "domain expansion " or msg:lower() == "king crimson" or msg:lower() == "king crimson " or msg:lower() == "." and sender and sender == receiver.Name then
+	    if CanDomainExpansion then return end
+	    if tick() - lastClickTime2 < DomainCooldown then
+	        return
+	    end
+	    lastClickTime2 = tick()
+	    CanDomainExpansion = false
+		local CutSence = tick()
+		StopAnim(16102717448)
+		CanBeTelekinetic = true
+		game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.DomainSummonAnimation, game.Players.LocalPlayer.Character.Humanoid):Play()
+		local SGD = Instance.new("ScreenGui", game.CoreGui)
+		local IMAGEDOMAIN = Instance.new("ImageLabel", SGD)
+		IMAGEDOMAIN.Size = UDim2.new(0.3, 0, 1, 0)
+		IMAGEDOMAIN.Position = UDim2.new(0, 0, 0, 0)
+		IMAGEDOMAIN.Image = "rbxthumb://type=Asset&id=15318959176&w=150&h=150"
+		local TEXTDOMAIN = Instance.new("TextLabel", SGD)
+		TEXTDOMAIN.Size = UDim2.new(0, 400, 0, 50)
+		TEXTDOMAIN.Position = UDim2.new(0.3, 0, 0.1, 0)
+		TEXTDOMAIN.TextSize = 50
+		TEXTDOMAIN.Text = "//Domain Expansion: Erase Time//"
+		TEXTDOMAIN.BackgroundTransparency = 1
+		TEXTDOMAIN.Font = Enum.Font.SourceSansBold
+		TEXTDOMAIN.TextColor3 = Color3.fromRGB(255, 255, 255)
+		AddStroke(TEXTDOMAIN, 4)
+		while tick() - CutSence < 2.4 do
+		    local playerHeadPosition = game.Players.LocalPlayer.Character.Head.Position
+		    game.Workspace.CurrentCamera.CFrame = CFrame.new(playerHeadPosition, playerHeadPosition - game.Players.LocalPlayer.Character.Head.CFrame.LookVector)
+		    game.Workspace.CurrentCamera.FieldOfView = 20
+		    local Humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") or game.Players.LocalPlayer.Character:FindFirstChildOfClass("AnimationController")
+		    local ActiveTracks = Humanoid:GetPlayingAnimationTracks()
+		    for _, v in pairs(ActiveTracks) do
+		        if v.Animation.AnimationId == "rbxassetid://15561810697" then
+		            v:AdjustSpeed(.3)
+		        end
+		    end
+		    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+		    wait()
+		end
+		SGD:Destroy()
+		CanBeTelekinetic = false
+		game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.DomainSummonAnimation, game.Players.LocalPlayer.Character.Humanoid):Stop()
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20 
+		startTween(1)
+		TimeErase()
+    end
+end)
+
+--[[OnDead]]--
+local function PlayerDead()
+	if _G.CanStopEdgelord == false then return end
+	if game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui") then
+		fireclickdetector(workspace.Lobby[OGlove].ClickDetector)
+		game.Players.LocalPlayer.leaderstats.Glove.Value = OGlove
+	    CanBeTelekinetic = true
+		CanDomainExpansion = true
+	    Teleport = false
+	    TeleportPE = false
+	    TeleportForPc = false
+	    TouchToTelekinetic = true
+	    CartoonPush = false
+		GasterTheme:Stop()
+		EdgelordGui:Destroy()
+		game.Workspace.Camera.FieldOfView = 70
+	end
+	if game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui") ~= nil then
+		game.Players.LocalPlayer.PlayerGui:FindFirstChild("EdgelordGui"):Destroy()
+	end
+	if game.Workspace:FindFirstChild("SafeSpotEdgeLord") ~= nil then
+		game.Workspace:FindFirstChild("SafeSpotEdgeLord"):Destroy()
+	end
+end
+
+--[[function connect]]--
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and TeleportPE then
+		local Teleportpos = game.Players.LocalPlayer:GetMouse().Hit+Vector3.new(0,2.5,0)
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Teleportpos.X,Teleportpos.Y,Teleportpos.Z)
+		Teleport = false
+		TeleportPE = false
+	end
+end)
+
+local function onInputBegan(input, gameProcessedEvent)
+    if gameProcessedEvent then return end
+    if not TouchToTelekinetic then return end
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or input.KeyCode == Enum.KeyCode.E then
+        EClicked()
+    end
+end
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.T and TeleportForPc then
+		local Teleportpos = game.Players.LocalPlayer:GetMouse().Hit+Vector3.new(0,2.5,0)
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Teleportpos.X,Teleportpos.Y,Teleportpos.Z)
+    end
+end)
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.F then
+        FClicked()
+    end
+end)
+EAbilityButtonReal.MouseButton1Click:Connect(EClicked)
+TAbilityButtonReal.MouseButton1Click:Connect(TClicked)
+FAbilityButtonReal.MouseButton1Click:Connect(FClicked)
+game.Players.LocalPlayer.CharacterAdded:Connect(PlayerDead)
+game:GetService("UserInputService").InputBegan:Connect(onInputBegan)
+--[[Others]]--
+local EffectUI = Instance.new("Frame",EdgelordGui)
+EffectUI.Size = UDim2.new(0.3, 0, 0.3, 0)
+EffectUI.Position = UDim2.new(0.34, 0, -0.2, 0)
+EffectUI.BackgroundColor3 = Color3.new(1, 1, 1)
+EffectUI.BorderColor3 = Color3.new(0, 0, 0)
+EffectUI.BorderSizePixel = 1
+EffectUI.Active = false
+local EffectUICorner = Instance.new("UICorner", EffectUI)
+EffectUICorner.CornerRadius = UDim.new(0, 20)
+
+
+local PhaseEffect = Instance.new("ImageButton", EffectUI)
+PhaseEffect.Size = UDim2.new(0.28, 0, 0.48, 0)
+PhaseEffect.Position = UDim2.new(0.05, 0, 0.42, 0)
+PhaseEffect.BackgroundColor3 = Color3.new(0, 0, 0)
+PhaseEffect.BorderColor3 = Color3.new(0, 0, 0)
+PhaseEffect.BorderSizePixel = 1
+PhaseEffect.Image = "rbxthumb://type=Asset&id=13780996974&w=150&h=150"
+PhaseEffect.MouseButton1Click:Connect(function()
+	local OGlove = game.Players.LocalPlayer.leaderstats.Glove.Value
+	EffectUI.Visible = false
+    fireclickdetector(workspace.Lobby.Phase.ClickDetector)
+    wait(0.3)
+    if game.Players.LocalPlayer.leaderstats.Glove.Value ~= "Phase" then
+	    game.StarterGui:SetCore("SendNotification", {Title = "ERROR!", Text = "You don't have Phase glove", Duration = 2})
+		EffectUI.Visible = true
+	else
+	    wait(0.3)
+	    game:GetService("ReplicatedStorage").PhaseA:FireServer()
+	    fireclickdetector(workspace.Lobby.Diamond.ClickDetector)
+		game:GetService("ReplicatedStorage"):WaitForChild("Rockmode"):FireServer()
+	    wait(6.4)
+	    game:GetService("ReplicatedStorage"):WaitForChild("Rockmode"):FireServer()
+	    game:GetService("ReplicatedStorage").Ghostinvisibilitydeactivated:FireServer()
+	    EffectUI.Visible = true
+	    fireclickdetector(workspace.Lobby[OGlove].ClickDetector)
+	end
+end)
+
+
+
+local KineticEffect = Instance.new("ImageButton", EffectUI)
+KineticEffect.Size = UDim2.new(0.28, 0, 0.48, 0)
+KineticEffect.Position = UDim2.new(0.36, 0, 0.42, 0)
+KineticEffect.BackgroundColor3 = Color3.new(0, 0, 0)
+KineticEffect.BorderColor3 = Color3.new(0, 0, 0)
+KineticEffect.BorderSizePixel = 1
+KineticEffect.Image = "rbxthumb://type=Asset&id=858523025&w=150&h=150"
+KineticEffect.MouseButton1Click:Connect(function()
+	local OGlove = game.Players.LocalPlayer.leaderstats.Glove.Value
+	EffectUI.Visible = false
+	fireclickdetector(workspace.Lobby.Kinetic.ClickDetector)
+	wait(0.5)
+	if game.Players.LocalPlayer.leaderstats.Glove.Value ~= "Kinetic" then
+		game.StarterGui:SetCore("SendNotification", {Title = "ERROR!", Text = "You don't have Kinetic glove to get effect", Duration = 2})
+		EffectUI.Visible = true
+	else
+		for i = 1, 100 do
+			game:GetService("ReplicatedStorage").SelfKnockback:FireServer(unpack({[1] = {["Direction"] = Vector3.new(-0, 0.5, -0),["Force"] = 0}}))
+			wait(0.01)
+		end
+		EffectUI.Visible = true
+	    fireclickdetector(workspace.Lobby[OGlove].ClickDetector)
+	end
+end)
+
+
+
+local StartUsing = Instance.new("TextButton", EffectUI)
+StartUsing.Size = UDim2.new(0.28, 0, 0.48, 0)
+StartUsing.Position = UDim2.new(0.67, 0, 0.42, 0)
+StartUsing.BackgroundColor3 = Color3.new(0, 0, 0)
+StartUsing.BorderColor3 = Color3.new(0, 0, 0)
+StartUsing.BorderSizePixel = 1
+StartUsing.Text = "Start"
+StartUsing.TextSize = 40
+StartUsing.TextColor3 = Color3.new(255, 255, 255)
+StartUsing.Font = Enum.Font.SourceSans
+StartUsing.MouseButton1Click:Connect(function()
+	if game.Players.LocalPlayer.leaderstats.Glove.Value == "Default" then
+		game.StarterGui:SetCore("SendNotification", {Title = "Notification!", Text = "Telekinetic Push won't work with default glove, turn on Cartoon Mode to enable.", Duration = 2})
+	end
+    EffectUI.Visible = false
+    edgelordGlove()
+	TeleportForPc = false
+	CanBeTelekinetic = false
+end)
