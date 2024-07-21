@@ -210,10 +210,6 @@ local Teleported = false
 TPTo.MouseButton1Down:Connect(function()
 	if Teleported == false then
 	Teleported = true
-	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3270, -228, 823)
-	task.wait(.5)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3287, -71, 823)
-	task.wait(.5)
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3273,-75,822)
 	end
 end)
