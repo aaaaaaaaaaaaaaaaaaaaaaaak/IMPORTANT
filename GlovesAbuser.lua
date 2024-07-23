@@ -3,6 +3,27 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
+--[[Premium Memebers]]--
+local playerName = game.Players.LocalPlayer.Name
+playerName = playerName:lower()
+-- whitelist
+local allowedPlayers = {
+    "hotomoma",
+    "ikdkd130",
+    "ikdkd128",
+    "xkaiden30x",
+    "calamitynoteL",
+    "prismaticofchaos",
+    "calamitynotem",
+    "jibuhms585",
+}
+if table.find(allowedPlayers, playerName) then
+    game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Dear "..game.Players.LocalPlayer.Name.."! Premium Version are still on progress so please wait until we're finished Premium version, Thanks",Icon = "rbxthumb://type=Asset&id=4989003129&w=150&h=150",Button1 = "OK"})
+    _G.SHOWPREMIUM = true
+else
+    game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Loading Gloves Abuser Script, wait a sec!",Icon = "rbxthumb://type=Asset&id=9649923610&w=150&h=150",Button1 = "OK"})
+    _G.SHOWPREMIUM = false
+end
 --[[Loadstrings]]--
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/FE/main/notificationtest"))();
 local Notify = Notification.Notify;
