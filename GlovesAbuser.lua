@@ -240,6 +240,9 @@ local allowedPlayers = {
     "calamitynotem",
     "jibuhms585",
     "bruhboy19079",
+    "lackyiy2",
+    "iloveslapbattlezxd47",
+    "lackyiy",
 }
 if table.find(allowedPlayers, playerName) then
     game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Dear "..game.Players.LocalPlayer.Name.."! Premium Version are still on progress so please wait until we're finished Premium version, Thanks",Icon = "rbxthumb://type=Asset&id=4989003129&w=150&h=150",Button1 = "OK"})
