@@ -9,6 +9,38 @@ local Notify = Notification.Notify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/Credit_owner.lua"))()
 Notify({Description = "Made by " .. getgenv().CreditName.DisplayYoutube .. "/" .. getgenv().CreditName.SourceYoutube ; Title = "Script Credit!"; Duration = 5;});
 
+--[[Premium Memebers]]--
+local playerName = game.Players.LocalPlayer.Name
+playerName = playerName:lower()
+-- whitelist
+loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/PremiumMembers.lua"))()
+
+if table.find(allowedPlayers, playerName) then
+    game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Dear "..game.Players.LocalPlayer.Name.."! Premium Version are still on progress so please wait until we're finished Premium version, Thanks",Icon = "rbxthumb://type=Asset&id=4989003129&w=150&h=150",Button1 = "OK"})
+     PremiumMember = true
+else
+    game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Loading Gloves Abuser Script, wait a sec!",Icon = "rbxthumb://type=Asset&id=9649923610&w=150&h=150",Button1 = "OK"})
+     PremiumMember = false
+end
+
+------------/// Get getgenv() setting \\\------------
+if not getgenv().GlovesAbuserSetting then
+	getgenv().GlovesAbuserSetting = {
+		ActiveAbility = true,
+		VictimSetting = "Nearest", -- others, self, random
+		GloveStatsChanger = false,
+		StatsChangeValue = "spin",
+		DiveBombPower = 500,
+		GoldenCancelColor = 131,
+		PropMorph = "bob",
+		ShotgunBullet = "buckshot" --  infectious, reverse, sleepy, explosive are others bullet
+	}
+end
+if not PremiumMember then
+	PremiumMember = false
+end
+local Moai = "🗿"
+
 ------------/// Remove Old Gui \\\------------
 if _G.MultiGloveAbuser then
 	if game.Players.LocalPlayer.PlayerGui:FindFirstChild(getgenv().CreditName.DisplayYoutube .. "GUI" .. _G.MultiGloveAbuser) then
@@ -29,6 +61,11 @@ if _G.MultiGloveAbuser == nil then
     end
     _G.MultiGloveAbuser = generateRandomWord(10)
 end
+
+local AbilitiesText = {"Diamond", "ZZZZZZZ", "Swapper", "Ghost", "Za Hando", "Fort", "Pusher", "Mail", "Golden", "MR", "Replica", "Reverse", "Duelist", "woah", "Engineer", "Rocky", "STOP", "Home Run", "Slicer", "Excavator", "Cloud", "Ferryman", "Blink", "God's Hand", "CUSTOM", "MEGAROCK", "[REDACTED]", "bus", "Mitten", "Phase", "Bomb", "Bubble", "Jet", "Shard", "bob", "Dominance", "Quake", "Kraken", "Counter", "rob", "Glovel", "Divebomb", "BONK", "Siphon", "Rojo"}
+local GeneralAbilitiesText = {"Tableflip", "Shield", "Baller", "Whirlwind", "Gravity", "Meteor", "Blackhole", "Rattlebones", "Tycoon", "Glitch", "Parry", "Alchemist", "Druid", "Jester", "Scythe", "Guardian Angel", "Ping Pong", "Flamarang", Moai, "Firework", "Pocket", "Jebaited", "Prop", "Frostbite", "Sun", "Sbeve", "Joust", "Golem", "fish", "Plank", "Spoonful", "UFO", "el gato", "Shotgun", "Beachball", "Shotgun", "Avatar", "Demolition"}
+local PassiveAbilitiesText = {"Snow", "Pull", "Bull", "Dice", "Anchor", "Boomerang", "Divert", "Ice", "Gummy", "Blocked", "Conveyor", "Booster", "Nightmare", "The Flex", "Warp", "Spy", "Orbit", "Disarm", "Error", "Chain", "Confusion", "RNG", "Goofy", "Leash", "Psycho", "Hammer", "Lure", "Pan", "Blasphemy", "Detonator", "Knockoff", "Warp", "The Flex", "Wrench", "Relude"}
+local VIPAbilitiesText = {"Defense", "Obby", "Magnet", "Thanos", "Acrobat", "Space", "Flash", "Retro", "Admin", "Grapple", "Beatdown", "Snowball", "Santa", "Hunter"}
 
 ------------/// Find Value \\\------------
 maxWaitTime = 5
@@ -226,37 +263,6 @@ while not game.Players.LocalPlayer.PlayerGui:FindFirstChild(getgenv().CreditName
     end
 end
 
---[[Premium Memebers]]--
-local playerName = game.Players.LocalPlayer.Name
-playerName = playerName:lower()
--- whitelist
-loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/PremiumMembers.lua"))()
-
-if table.find(allowedPlayers, playerName) then
-    game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Dear "..game.Players.LocalPlayer.Name.."! Premium Version are still on progress so please wait until we're finished Premium version, Thanks",Icon = "rbxthumb://type=Asset&id=4989003129&w=150&h=150",Button1 = "OK"})
-     PremiumMember = true
-else
-    game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Loading Gloves Abuser Script, wait a sec!",Icon = "rbxthumb://type=Asset&id=9649923610&w=150&h=150",Button1 = "OK"})
-     PremiumMember = false
-end
-
-------------/// Get getgenv() setting \\\------------
-	if not getgenv().GlovesAbuserSetting then
-		getgenv().GlovesAbuserSetting = {
-			ActiveAbility = true,
-			VictimSetting = "Nearest", -- others, self, random
-			GloveStatsChanger = false,
-			StatsChangeValue = "spin",
-			DiveBombPower = 500,
-			GoldenCancelColor = 131,
-			PropMorph = "bob",
-			VIPMEMBER = false
-		}
-	end
-	if not  PremiumMember then
-		 PremiumMember = false
-	end
-	local Moai = "🗿"
 ------------/// Call Button function tab \\\------------
 function AddTabButton(Type, Text, Name, Pos, Size, Image)
     local TabButton = Instance.new(Type, MainTable)
@@ -287,7 +293,7 @@ AddTabButton("ImageButton", "Lobby", "Lobby", UDim2.new(0.41, 0, 0.01, 0), UDim2
 AddTabButton("ImageButton", "Arena", "Arena", UDim2.new(0.5, 0, 0.01, 0), UDim2.new(0.08, 0, 0.08, 0), 10090587536)
 AddTabButton("ImageButton", "Slap", "Slap", UDim2.new(0.59, 0, 0.01, 0), UDim2.new(0.08, 0, 0.08, 0), 12334310477)
 AddTabButton("ImageButton", "Set", "Set", UDim2.new(0.68, 0, 0.01, 0), UDim2.new(0.08, 0, 0.08, 0), 12809025366)
-AddTabButton("TextButton", "Version 2.5", "Version", UDim2.new(0.77, 0, 0.01, 0), UDim2.new(0.21, 0, 0.08, 0))
+AddTabButton("TextButton", "Version 2.5.5", "Version", UDim2.new(0.77, 0, 0.01, 0), UDim2.new(0.21, 0, 0.08, 0))
 ------------/// Get Current Level Value \\\------------
 local CurrentLevel = MainTable:FindFirstChild("CurrentLevel")
 local level = tonumber(CurrentLevel.Text)
@@ -326,11 +332,6 @@ function UpdateGloveStandList(List)
 end
 
 ------------/// Add Button List \\\------------
-local AbilitiesText = {"Diamond", "ZZZZZZZ", "Swapper", "Ghost", "Za Hando", "Fort", "Pusher", "Mail", "Golden", "MR", "Replica", "Reverse", "Duelist", "woah", "Engineer", "Rocky", "STOP", "Home Run", "Slicer", "Excavator", "Cloud", "Ferryman", "Blink", "God's Hand", "CUSTOM", "MEGAROCK", "[REDACTED]", "bus", "Mitten", "Phase", "Bomb", "Bubble", "Jet", "Shard", "bob", "Dominance", "Quake", "Kraken", "Counter", "rob", "Glovel", "Divebomb", "BONK", "Siphon", "Rojo"}
-local GeneralAbilitiesText = {"Tableflip", "Shield", "Baller", "Whirlwind", "Gravity", "Meteor", "Blackhole", "Rattlebones", "Tycoon", "Glitch", "Parry", "Alchemist", "Druid", "Jester", "Scythe", "Guardian Angel", "Ping Pong", "Flamarang", Moai, "Firework", "Pocket", "Jebaited", "Prop", "Frostbite", "Sun", "Sbeve", "Joust", "Golem", "fish", "Plank", "Spoonful", "UFO", "el gato"}
-local PassiveAbilitiesText = {"Snow", "Pull", "Bull", "Dice", "Anchor", "Boomerang", "Divert", "Ice", "Gummy", "Blocked", "Conveyor", "Booster", "Nightmare", "The Flex", "Warp", "Spy", "Orbit", "Disarm", "Error", "Chain", "Confusion", "RNG", "Goofy", "Leash", "Psycho", "Hammer", "Lure", "Pan", "Blasphemy", "Detonator", "Knockoff", "Warp", "The Flex", "Wrench", "Relude"}
-local VIPAbilitiesText = {"Defense", "Obby", "Magnet", "Thanos", "Acrobat", "Space", "Flash", "Retro", "Admin", "Grapple", "Beatdown", "Snowball", "Santa", "Hunter"}
-
 UpdateGloveStandList(AbilitiesText)
 UpdateGloveStandList(PassiveAbilitiesText)
 UpdateGloveStandList(GeneralAbilitiesText)
@@ -651,6 +652,17 @@ for _, Button in ipairs(MainTableFrame:GetChildren()) do
 							game:GetService("ReplicatedStorage").Events.Cat:FireServer()
 						end
 						GeneralValue = {"What a cute cat :3333"}
+					elseif Button.Name == "Demolition" then
+						if not game:GetService("Workspace"):FindFirstChild("c4_" .. game.Players.LocalPlayer.Name) then
+							GeneralValue = {"c4"}
+						else
+							game:GetService("ReplicatedStorage").Events.c4:FireServer()
+							return
+						end
+					elseif Button.Name == "Shotgun" then
+						GeneralValue = {GlovesAbuserSetting.ShotgunBullet}
+					elseif Button.Name == "Avatar" then
+						GeneralValue = {game.Players.LocalPlayer.Character.Head.CFrame * CFrame.new(0,-4.45,0) * CFrame.Angles(0,60, -80.1126)}
 					else
 						GeneralValue = {"Script made by " .. getgenv().CreditName.DisplayYoutube .. "/" .. getgenv().CreditName.SourceYoutube}
 					end
@@ -1055,18 +1067,17 @@ function CreateSlapAura()
 	            end
 	        end
 	    end
-		for _, c in pairs(workspace:GetChildren()) do
-			if string.find(c.Name, "Å") and c:FindFirstChild("HumanoidRootPart") then
-				local Magnitude2 = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - c.HumanoidRootPart.Position).Magnitude
-				if Magnitude2 <= Range2 then
-					gloveHits[game.Players.LocalPlayer.leaderstats.Glove.Value]:FireServer(c:WaitForChild("HumanoidRootPart"), true)
-				end
-			end
+		for _, npc in pairs(game:GetService("Workspace"):GetChildren()) do
+		    if npc.Name:match("Blink_") or npc.Name:match("Å") and npc:FindFirstChild("Torso") then
+				gloveHits[game.Players.LocalPlayer.leaderstats.Glove.Value]:FireServer(npc.Torso)
+		    end
 		end
-		if game.Workspace:FindFirstChild("Blink_".. game.Players.LocalPlayer.Name) then
-		    gloveHits[game.Players.LocalPlayer.leaderstats.Glove.Value]:FireServer(workspace:FindFirstChild("Blink_".. game.Players.LocalPlayer.Name).Torso)
+		for _, part in pairs(workspace.Balls:GetChildren()) do
+		    if part.Name:match("'s Ball$") then
+				game:GetService("ReplicatedStorage").Events.BeachBall:FireServer(unpack({[1] = part, [2] = game.Players.LocalPlayer.Character.Head.CFrame.LookVector * 100}))
+		    end
 		end
-		    lastClickTime = tick()
-		    SlapAura = false
+	    lastClickTime = tick()
+	    SlapAura = false
 	end)
 end
