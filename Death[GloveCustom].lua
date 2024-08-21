@@ -1198,7 +1198,7 @@ local function Dash()
 		bv.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * (80 + 10)
 		PlayAnim("Roll", 16299510063, 2)
 	end
-    game:GetService("Debris"):AddItem(bv, Setting.Power )
+    game:GetService("Debris"):AddItem(bv, 80 )
     task.wait(.25)
     StopAnim("Dash", 15436359788)
     StopAnim("Roll", 16299510063)
