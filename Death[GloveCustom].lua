@@ -1,3 +1,14 @@
+--[[Setting Value]]--
+if not getgenv().DeathGlove then
+	getgenv().DeathGlove = {
+		HideClients = true,
+		MuteClientSounds = false,
+		HideFEScythe = false,
+		ClientDeathTheme = true,
+		BoostValue = 50, --[[MAX = 80]]--
+	}
+end
+if DeathGlove.BoostValue > 50 then DeathGlove.BoostValue = 50 end
 --[[Wait For Game]]--
 if not game:IsLoaded() then
     game.Loaded:Wait()
@@ -41,7 +52,11 @@ end
  local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
 --[VARIABLES2]--
  local lobby = game.Workspace.Lobby
- local HideClients = false
+ local HideClients = DeathGlove.HideClients
+ local MuteClientSounds = DeathGlove.MuteClientSounds
+ local DeathThemeEnabled = DeathGlove.ClientDeathTheme
+ local HideFEScythe = DeathGlove.HideFEScythe
+ local BoostValue = 0
  local OLGlove = Player.leaderstats.Glove.Value
  local ShowScythe = false
  local HoldingGlove = false
@@ -77,7 +92,7 @@ local function AbilityCDSet(Value)
 	STUN = Value
 	CantRapidSlash = not Value
 	PassiveOnCD = not Value
-	CanLmb = Value
+	CanLmb = not Value
 	SuperJumpCD = Value
 	SeismicDescentCD = Value
 	StompCD = Value
@@ -99,60 +114,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/mai
 Notify({Description = "Made by " .. getgenv().CreditName.DisplayYoutube .. "/" .. getgenv().CreditName.SourceYoutube ; Title = "Script Credit!"; Duration = 5;});
 if workspace:FindFirstChild("Death's AntiVoid") then
 	workspace:FindFirstChild("Death's AntiVoid"):Destroy()
-end
-
---[[Functions]]--
-local function CubeOfBoost()
-	if workspace.Arena.CubeOfDeathArea:FindFirstChild("Death's bless") then
-		workspace.Arena.CubeOfDeathArea:FindFirstChild("Death's bless"):Destroy()
-	end
-	local CubeBuff = Instance.new("Part", workspace.Arena.CubeOfDeathArea)
-	CubeBuff.Position = game:GetService("Workspace").Arena.CubeOfDeathArea["the cube of death(i heard it kills)"].CFrame.Position - Vector3.new(0, 1.7, 0)
-	CubeBuff.Anchored = true
-	CubeBuff.Name = "Death's bless"
-	CubeBuff.Size = Vector3.new(.5, 60, 60)
-	CubeBuff.Material = Enum.Material.Neon 
-	CubeBuff.Color = Color3.new(0, 0, 0) 
-	CubeBuff.Shape = Enum.PartType.Cylinder 
-	CubeBuff.CFrame = CubeBuff.CFrame * CFrame.Angles(0, 0, math.rad(90))
-	
-	local CubeBuff2 = CubeBuff:Clone()
-	CubeBuff2.Size = Vector3.new(.4, 62.5, 62.5)
-	CubeBuff2.Color = Color3.new(1,1,1) 
-	CubeBuff2.CFrame = CubeBuff.CFrame
-	CubeBuff2.Parent = CubeBuff
-end
-
-local function BlessedCube(hit)
-    if DeathCubeBoost and not DeadDisconnected then
-        if hit:IsDescendantOf(Character) then
-	        local touchingPlayer = game.Players:GetPlayerFromCharacter(hit.Parent)
-	        if touchingPlayer and touchingPlayer.UserId == Player.UserId then
-		        Humanoid.WalkSpeed = Humanoid.WalkSpeed * 2
-		        createSound(Head,3508218059,10,true)
-		        chatFunc1("The Death Cube has returned a portion of the power that originally belonged to you *")
-		        task.spawn(function()
-				    task.wait(5)
-				    if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard") then
-				        game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard"):Destroy()
-				    end
-				end)
-		        DeathCubeBoost = false
-			end
-	    end
-	end
-end
-
-local function ReturnToArena(hit)
-    if not DeadDisconnected then
-        if hit:IsDescendantOf(Character) then
-	        local touchingPlayer = game.Players:GetPlayerFromCharacter(hit.Parent)
-	        if touchingPlayer and touchingPlayer.UserId == Player.UserId then
-		        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Origo.CFrame * CFrame.new(0,-5,0)
-		        createSound(Head,3508218059,10,true)
-			end
-		end
-	end
 end
 
 -- God Mode
@@ -435,11 +396,12 @@ end
 
 local colorcorrect = game:GetService("Lighting"):FindFirstChild("HYPE")
 if not colorcorrect then
- colorcorrect = Instance.new("ColorCorrectionEffect", game:GetService("Lighting"))
- colorcorrect.Name = "HYPE"
+	 colorcorrect = Instance.new("ColorCorrectionEffect", game:GetService("Lighting"))
+	 colorcorrect.Name = "HYPE"
 end
 --[[Sound]]--
-createSound = function(instance,soundid,volume,destroy,pitch)
+local createSound = function(instance,soundid,volume,destroy,pitch)
+	if MuteClientSounds then return end
 	local sound = Instance.new("Sound")
 	sound.SoundId = "rbxassetid://" .. soundid
 	sound.Volume = volume
@@ -473,6 +435,60 @@ DeathTheme1.Ended:Connect(function()
 	DeathTheme1:Play()
 end)
 
+--[[Functions]]--
+local function CubeOfBoost()
+	if workspace.Arena.CubeOfDeathArea:FindFirstChild("Death's bless") then
+		workspace.Arena.CubeOfDeathArea:FindFirstChild("Death's bless"):Destroy()
+	end
+	local CubeBuff = Instance.new("Part", workspace.Arena.CubeOfDeathArea)
+	CubeBuff.Position = game:GetService("Workspace").Arena.CubeOfDeathArea["the cube of death(i heard it kills)"].CFrame.Position - Vector3.new(0, 1.7, 0)
+	CubeBuff.Anchored = true
+	CubeBuff.Name = "Death's bless"
+	CubeBuff.Size = Vector3.new(.5, 60, 60)
+	CubeBuff.Material = Enum.Material.Neon 
+	CubeBuff.Color = Color3.new(0, 0, 0) 
+	CubeBuff.Shape = Enum.PartType.Cylinder 
+	CubeBuff.CFrame = CubeBuff.CFrame * CFrame.Angles(0, 0, math.rad(90))
+	
+	local CubeBuff2 = CubeBuff:Clone()
+	CubeBuff2.Size = Vector3.new(.4, 62.5, 62.5)
+	CubeBuff2.Color = Color3.new(1,1,1) 
+	CubeBuff2.CFrame = CubeBuff.CFrame
+	CubeBuff2.Parent = CubeBuff
+end
+
+local function BlessedCube(hit)
+    if DeathCubeBoost and not DeadDisconnected then
+        if hit:IsDescendantOf(Character) then
+	        local touchingPlayer = game.Players:GetPlayerFromCharacter(hit.Parent)
+	        if touchingPlayer and touchingPlayer.UserId == Player.UserId then
+		        Humanoid.WalkSpeed = Humanoid.WalkSpeed * 1.5
+				BoostValue = DeathGlove.BoostValue
+		        createSound(Head,3508218059,10,true)
+		        chatFunc1("(The Death Cube has returned a portion of the power that originally belonged to you)")
+		        task.spawn(function()
+				    task.wait(5)
+				    if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard") then
+				        game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard"):Destroy()
+				    end
+				end)
+		        DeathCubeBoost = false
+			end
+	    end
+	end
+end
+
+local function ReturnToArena(hit)
+    if not DeadDisconnected then
+        if hit:IsDescendantOf(Character) then
+	        local touchingPlayer = game.Players:GetPlayerFromCharacter(hit.Parent)
+	        if touchingPlayer and touchingPlayer.UserId == Player.UserId then
+		        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Origo.CFrame * CFrame.new(0,-5,0)
+		        createSound(Head,3508218059,10,true)
+			end
+		end
+	end
+end
 
 --[[CHAT]]--
 function swait()
@@ -542,6 +558,7 @@ function chatFunc1(msg, timr, size)
 end
 
 function chatFunc2(msg, timr, size)
+	if HideClients then return end
     spawn(function()
         msg = "* " .. msg
         timr = 30
@@ -868,7 +885,9 @@ local function HoldScythe(ToolName)
     local tool = Character:FindFirstChildWhichIsA("Tool")
     while ShowScythe == true do
 	    if tool and tool.Name == ToolName then
-	        ReplicatedStorage.Scythe:FireServer("ScytheWeapon")
+			if not HideFEScythe then
+				ReplicatedStorage.Scythe:FireServer("ScytheWeapon")
+			end
 	        tool = Character:FindFirstChildWhichIsA("Tool")
 	    end
 		wait(.45)
@@ -884,7 +903,6 @@ local function EquipGlove()
     Player.leaderstats.Glove.Value = NewGlove
     wait(0.1)
     Player.leaderstats.Glove.Value = NewGlove
-    
     local tool
     while TimeEnded == nil and not DeadDisconnected do
 	    if tick() - StartTimeCheck < EndedTimeCheck and not NotFullCharacter() then
@@ -897,19 +915,19 @@ local function EquipGlove()
 					end
 				end 
 		    else
-			    Notify({Description = "You took too long to enter arena or died, script automatically stopped"; Title = "Error"; Duration = 5;}); DeadDisconnected = true TimeEnded = true Player.leaderstats.Glove.Value = OLGlove SG:Destroy() return
+			    Notify({Description = "You took too long to enter arena, died or ragdolled, script automatically stopped"; Title = "Error"; Duration = 5;}); DeadDisconnected = true TimeEnded = true Player.leaderstats.Glove.Value = OLGlove SG:Destroy() return
 		    end 
 	    wait()
     end
     if tool and game.Players.LocalPlayer.Character:FindFirstChild("entered") and not DeadDisconnected then
-		if math.random() > 1 then
+		if math.random() == 1 then
 		    chatFunc1("I FEEL THE POWER!")
-		elseif math.random() < 1 and math.random() > 0.5 then 
+		elseif math.random() > 0.5 then 
 			chatFunc1("The Power!")
 		elseif math.random() < 0.5 then
 			chatFunc1("This power...")
 		else
-			chatFunc1("Lali ho!")
+			chatFunc1("...")
 		end
 		task.wait(1.4)
 		workspace.BountyHunterRoom.BountyHunterBooth._configPart.OpenRemote:InvokeServer()
@@ -957,24 +975,22 @@ local function EquipGlove()
 		tool.Unequipped:Connect(function()
 			HoldingGlove = false
 		end)
-		CanLmb = true 
-		CantRapidSlash = true
+		CubeOfBoost()
+		DeathCubeBoost = true
+		local Bless = workspace.Arena.CubeOfDeathArea:FindFirstChild("Death's bless") 
+		local Return = workspace:FindFirstChild("Death's AntiVoid")
+		if Bless then
+			BlessedCubeConnection = Bless.Touched:Connect(BlessedCube)
+		end
+		if Return then
+			ReturnBrickConnection = Return.Touched:Connect(ReturnToArena)
+		end
+		if DeathThemeEnabled then DeathTheme1:Play() end
 		if HideClients ~= true then
 			local toolSet = tool:FindFirstChild("Glove") or tool:WaitForChild("Glove")
 			local HandleSet = tool:FindFirstChild("Handle") or tool:WaitForChild("Handle")
-			DeathTheme1:Play()
 			Highlight(Player)
 			Horn()
-			DeathCubeBoost = true
-			CubeOfBoost()
-			local Bless = workspace.Arena.CubeOfDeathArea:FindFirstChild("Death's bless") 
-			local Return = workspace:FindFirstChild("Death's AntiVoid")
-			if Bless then
-				BlessedCubeConnection = Bless.Touched:Connect(BlessedCube)
-			end
-			if Return then
-				ReturnBrickConnection = Return.Touched:Connect(ReturnToArena)
-			end
 			if toolSet then
 				local DeathAttachment = CreateAttachment{Parent = Character.Torso, Name =  "DeathAttachment", CFrame = CFrame.new(0, 2, 2.20000005, 1, 0, 0, 0, 0, -1, 0, 1, 0), Rotation = Vector3.new(-90, 0, 0)}
 				local EffectAttachment = CreateAttachment{Parent = Character.Torso, Name = "EffectAttachment", CFrame = CFrame.new(0,-3, 0), Rotation = Vector3.new(0,0,0)}
@@ -1003,7 +1019,7 @@ local function EquipGlove()
 		end
 		game:GetService("TweenService"):Create(colorcorrect,TweenInfo.new(1,Enum.EasingStyle.Sine,Enum.EasingDirection.In),{Brightness = 0}):Play()
 		shakeCamera(30, Character.HumanoidRootPart.Position, true)
-		chatFunc3("THE TRUE DEATH")
+		chatFunc3("DEATH")
 		task.spawn(function()
 		    task.wait(5)
 		    if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard") then
@@ -1029,13 +1045,15 @@ local function LmbClicked()
     SlapAura2(OLGlove, 20)
     createCooldown({Title = "Scythe Swing", Time = .7})
     lastLmbTime = tick()
-    CanLmb = true
     task.wait(.7)
     STUN = false
+    CanLmb = true
     StopAnim("DeathSlash1", 16102426718, 1)
 end
 
 local function RapidSlashAbility()
+	local BoostedTeleport = BoostValue
+	if BoostedTeleport ~= 0 then BoostedTeleport = BoostedTeleport - 30 end
     if DeadDisconnected or not CantRapidSlash or not HoldingGlove or STUN then return end
     if tick() - LastRapidSlashTime < ECooldown then
         return
@@ -1055,7 +1073,7 @@ local function RapidSlashAbility()
     StopAnim("ScytheCharge", 16102532028, 1)
     PlayAnim("ScytheAttack", 16102535685, 1)
     ReplicatedStorage.slapstick:FireServer("dash")
-	local forward = Character.HumanoidRootPart.CFrame.LookVector * 50
+	local forward = Character.HumanoidRootPart.CFrame.LookVector * (50 + BoostedTeleport)
 	Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + forward
 	createSound(Head,4861863043, 5,true)
     task.wait()
@@ -1165,6 +1183,7 @@ end
 
 local function Dash()
     if DeadDisconnected or DashCD or DashCD2 or STUN or NotFullCharacter() then return end
+    local DashPower = 60 + BoostValue
     DashCD = true
 	STUN = true
     local dashDirection = nil
@@ -1186,19 +1205,19 @@ local function Dash()
     bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
     createSound(game.Players.LocalPlayer.Character.Torso,1295417556, 1 ,true)
     if game.Players.LocalPlayer.Character.Humanoid.MoveDirection == Vector3.new(0,0,0) and game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
-	    bv.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 80
+	    bv.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * DashPower
 	    PlayAnim("Roll", 16299510063, 1.5)
     elseif game.Players.LocalPlayer.Character.Humanoid.MoveDirection ~= Vector3.new(0,0,0) and game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
-	    bv.Velocity = game.Players.LocalPlayer.Character.Humanoid.MoveDirection * 80
+	    bv.Velocity = game.Players.LocalPlayer.Character.Humanoid.MoveDirection * DashPower
 	    PlayAnim("Dash", 15436359788, 1)
 	elseif game.Players.LocalPlayer.Character.Humanoid.MoveDirection ~= Vector3.new(0,0,0) and game.Players.LocalPlayer.Character.Humanoid.FloorMaterial == Enum.Material.Air then
-		bv.Velocity = game.Players.LocalPlayer.Character.Humanoid.MoveDirection * (80 + 10)
+		bv.Velocity = game.Players.LocalPlayer.Character.Humanoid.MoveDirection * (DashPower + 10)
 		PlayAnim("Roll", 16299510063, 2)
 	elseif game.Players.LocalPlayer.Character.Humanoid.MoveDirection == Vector3.new(0,0,0) and game.Players.LocalPlayer.Character.Humanoid.FloorMaterial == Enum.Material.Air then
-		bv.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * (80 + 10)
+		bv.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * (DashPower + 10)
 		PlayAnim("Roll", 16299510063, 2)
 	end
-    game:GetService("Debris"):AddItem(bv, 80 )
+    game:GetService("Debris"):AddItem(bv, DashPower)
     task.wait(.25)
     StopAnim("Dash", 15436359788)
     StopAnim("Roll", 16299510063)
@@ -1421,7 +1440,7 @@ local function ScytheSpinning()
 				    if targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
 				        local targetHumanoid = targetPlayer.Character.Humanoid
 				        if targetHumanoid and targetHumanoid.Health > 0 then
-				            bv.Velocity = (targetPosition - localPosition).unit * 50
+				            bv.Velocity = (targetPosition - localPosition).unit * (50 + BoostValue)
 				        elseif targetHumanoid and targetHumanoid.Health <= 0 then
 				            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = originalPosition
 				        end
@@ -1626,9 +1645,9 @@ local function OmnidirectionalCleave()
             end
             if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") and targetPlayer.Character.Humanoid.Health ~= 0 and not NotFullCharacter() then
             StopAnim("Cleave1", 16569959250)
-            PlayAnim("EarthSlam", 16102907464, 1.5)
             ReplicatedStorage.slapstick:FireServer("dash")
             wait(.5)
+            PlayAnim("EarthSlam", 16102907464, 2)
             targetPosition = targetPlayer.Character.HumanoidRootPart.Position
 		    localPosition = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
             character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
