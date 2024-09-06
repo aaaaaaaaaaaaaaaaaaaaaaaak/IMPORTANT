@@ -13,7 +13,7 @@ Notify({Description = "Made by " .. getgenv().CreditName.DisplayYoutube .. "/" .
 local playerName = game.Players.LocalPlayer.Name
 playerName = playerName:lower()
 -- whitelist
-loadstring(game:HttpGet("https://raw.githubusercontent.com/OMOHOTA/GeneralSB/main/PremiumMembers.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aaaaaaaaaaaaaaaaaaaaaaaak/IMPORTANT-V3/main/PremiumMembers.lua"))()
 
 if table.find(allowedPlayers, playerName) then
     game.StarterGui:SetCore("SendNotification", {Title = "System",Duration = 5,Text = "Dear "..game.Players.LocalPlayer.Name.."! Premium Version are still on progress so please wait until we're finished Premium version, Thanks",Icon = "rbxthumb://type=Asset&id=4989003129&w=150&h=150",Button1 = "OK"})
